@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: projectmanager
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      FLASK_ENV: development
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/projectmanager
+      SECRET_KEY: ${SECRET_KEY}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+
+volumes:
+  postgres_data:
