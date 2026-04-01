@@ -25,7 +25,7 @@ def create_project():
     db.session.add(project)
     db.session.commit()
 
-    return jsonify({"message": "Project created successfully", "project": project.to_dict()}), 201
+    return jsonify(project.to_dict()), 201
 
 @projects_bp.route("/<int:project_id>", methods=["PUT"])
 @jwt_required()
@@ -45,7 +45,7 @@ def update_project(project_id):
     project.status = data.get("status", project.status)
 
     db.session.commit()
-    return jsonify({"message": "Project updated successfully", "project": project.to_dict()}), 200
+    return jsonify(project.to_dict()), 200
 
 @projects_bp.route("/<int:project_id>", methods=["DELETE"])
 @jwt_required()     
