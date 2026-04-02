@@ -4,6 +4,7 @@ from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 from .config import config
+from prometheus_flask_exporter import PrometheusMetrics
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -18,6 +19,9 @@ def create_app(env="development"):
     migrate.init_app(app, db)
     bcrypt.init_app(app)
     jwt.init_app(app)
+
+    if env == "production":
+        PrometheusMetrics(app)
 
     from .routes.auth import auth_bp
     from .routes.projects import projects_bp
