@@ -3,11 +3,14 @@ kind: Service
 metadata:
   name: app-service
   namespace: project-manager
+  labels:
+    app: flask-api
 spec:
   selector:
     app: flask-api
   ports:
-    - port: 5000
+    - name: http
+      port: 5000
       targetPort: 5000
       nodePort: 30000
   type: NodePort
